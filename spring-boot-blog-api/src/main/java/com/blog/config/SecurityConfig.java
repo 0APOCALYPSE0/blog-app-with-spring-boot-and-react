@@ -1,6 +1,7 @@
 package com.blog.config;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -13,6 +14,9 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
+import org.springframework.web.filter.CorsFilter;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 
 import com.blog.security.CustomUserDetailService;
@@ -71,6 +75,24 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
 		return super.authenticationManagerBean();
 	}
 	
-	
+	@Bean
+	public FilterRegistrationBean corsFilter(){
+		UrlBasedCorsConfigurationSource urlBasedCorsConfigurationSource = new UrlBasedCorsConfigurationSource();
+		CorsConfiguration corsConfiguration = new CorsConfiguration();
+		corsConfiguration.setAllowCredentials(true);
+		corsConfiguration.addAllowedOriginPattern("*");
+		corsConfiguration.addAllowedHeader("Authorization");
+		corsConfiguration.addAllowedHeader("Content-Type");
+		corsConfiguration.addAllowedHeader("Accept");
+		corsConfiguration.addAllowedMethod("POST");
+		corsConfiguration.addAllowedMethod("PUT");
+		corsConfiguration.addAllowedMethod("DELETE");
+		corsConfiguration.addAllowedMethod("GET");
+		corsConfiguration.addAllowedMethod("OPTION");
+		corsConfiguration.setMaxAge(3600L);
+		urlBasedCorsConfigurationSource.registerCorsConfiguration("/**", corsConfiguration);
+		FilterRegistrationBean filterRegistrationBean = new FilterRegistrationBean(new CorsFilter(urlBasedCorsConfigurationSource));
+		return filterRegistrationBean;
+	}
 	
 }
