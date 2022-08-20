@@ -19,5 +19,5 @@ export const getCurrentUser = () => {
   if(isLoggedIn()){
     return JSON.parse(localStorage.getItem("data")).user;
   }
-  return null;
+  return undefined;
 }

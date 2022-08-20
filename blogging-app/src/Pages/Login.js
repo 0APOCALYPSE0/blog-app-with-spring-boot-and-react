@@ -1,4 +1,5 @@
 import React, { useState } from 'react'
+import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import { Button, Card, CardBody, CardHeader, Col, Container, Form, FormFeedback, FormGroup, Input, Label, Row } from 'reactstrap'
 import { doLogin } from '../auth';
@@ -6,6 +7,7 @@ import Layout from '../components/Layout'
 import { login } from '../services/user-service';
 
 const Login = () => {
+  const navigate = useNavigate();
   const [form, setForm] = useState({
     username: "",
     password: ""
@@ -35,7 +37,7 @@ const Login = () => {
     .then(response => {
       console.log(response);
       doLogin(response, () => {
-        
+        navigate("/user/dashboard");
       });
       toast.success("User logged in successfully.");
       reset();

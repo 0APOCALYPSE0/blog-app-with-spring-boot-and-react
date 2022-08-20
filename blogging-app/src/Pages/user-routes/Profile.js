@@ -1,8 +1,11 @@
 import React from 'react'
+import Layout from '../../components/Layout'
 
 const Profile = () => {
   return (
-    <div>Profile</div>
+    <Layout>
+      <div>Profile</div>
+    </Layout>
   )
 }
 

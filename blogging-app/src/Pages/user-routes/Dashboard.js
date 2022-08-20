@@ -1,8 +1,11 @@
 import React from 'react'
+import Layout from '../../components/Layout'
 
 const Dashboard = () => {
   return (
-    <div>Dashboard</div>
+    <Layout>
+      <h1>Welcome to dashboard</h1>
+    </Layout>
   )
 }
 
