@@ -15,18 +15,18 @@ import com.blog.payloads.CommentDto;
 import com.blog.services.CommentService;
 
 @RestController
-@RequestMapping("/api")
+@RequestMapping("/api/v1")
 public class CommentController {
-	
+
 	@Autowired
 	private CommentService commentService;
-	
+
 	@PostMapping("/post/{postId}/user/{userId}/comments")
 	public ResponseEntity<CommentDto> createComment(@RequestBody CommentDto commentDto, @PathVariable Integer postId, @PathVariable Integer userId){
 		CommentDto comment = this.commentService.createComment(commentDto, postId, userId);
 		return new ResponseEntity<CommentDto>(comment, HttpStatus.CREATED);
 	}
-	
+
 	@DeleteMapping("/comments/{commentId}")
 	public ResponseEntity<ApiResponse> deleteComment(@PathVariable Integer commentId){
 		this.commentService.deleteComment(commentId);

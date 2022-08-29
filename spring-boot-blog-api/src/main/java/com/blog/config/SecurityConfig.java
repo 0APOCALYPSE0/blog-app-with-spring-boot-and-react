@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
@@ -29,16 +30,16 @@ import com.blog.security.JwtAuthenticationFilter;
 @EnableGlobalMethodSecurity(prePostEnabled = true)
 @SuppressWarnings("deprecation")
 public class SecurityConfig extends WebSecurityConfigurerAdapter{
-	
+
 	public static final String[] PUBLIC_URLS = {
-			"/api/v1/auth/**", 
+			"/api/v1/auth/**",
 			"/v2/api-docs",
-			"/v3/api-docs", 
-			"/swagger-resources/**", 
+			"/v3/api-docs",
+			"/swagger-resources/**",
 			"/swagger-ui/**",
 			"/webjars/**"
 			};
-	
+
 	@Autowired
 	CustomUserDetailService customUserDetailService;
 	@Autowired
@@ -51,11 +52,12 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
 		http.csrf().disable()
 		.authorizeHttpRequests()
 		.antMatchers(PUBLIC_URLS).permitAll()
+		.antMatchers(HttpMethod.GET).permitAll()
 		.anyRequest()
 		.authenticated().and()
 		.exceptionHandling().authenticationEntryPoint(this.jwtAuthenticationEntryPoint)
 		.and().sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
-		
+
 		http.addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
 	}
 
@@ -63,7 +65,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
 	protected void configure(AuthenticationManagerBuilder auth) throws Exception {
 		auth.userDetailsService(this.customUserDetailService).passwordEncoder(passwordEncoder());
 	}
-	
+
 	@Bean
 	public PasswordEncoder passwordEncoder() {
 		return new BCryptPasswordEncoder();
@@ -74,7 +76,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
 	public AuthenticationManager authenticationManagerBean() throws Exception {
 		return super.authenticationManagerBean();
 	}
-	
+
 	@Bean
 	public FilterRegistrationBean corsFilter(){
 		UrlBasedCorsConfigurationSource urlBasedCorsConfigurationSource = new UrlBasedCorsConfigurationSource();
@@ -92,7 +94,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
 		corsConfiguration.setMaxAge(3600L);
 		urlBasedCorsConfigurationSource.registerCorsConfiguration("/**", corsConfiguration);
 		FilterRegistrationBean filterRegistrationBean = new FilterRegistrationBean(new CorsFilter(urlBasedCorsConfigurationSource));
+		filterRegistrationBean.setOrder(-110);
 		return filterRegistrationBean;
 	}
-	
+
 }

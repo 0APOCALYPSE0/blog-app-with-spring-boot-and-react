@@ -32,10 +32,9 @@ const Login = () => {
 
   const submit = (e) => {
     e.preventDefault();
-    console.log(form);
     login(form)
     .then(response => {
-      console.log(response);
+      // console.log(response);
       doLogin(response, () => {
         navigate("/user/dashboard");
       });
@@ -43,7 +42,6 @@ const Login = () => {
       reset();
     })
     .catch(error => {
-      console.log("hello", error);
       setError({
         errors:error.response.data,
         isError: true

@@ -21,36 +21,36 @@ import com.blog.payloads.CategoryDto;
 import com.blog.services.CategoryService;
 
 @RestController
-@RequestMapping("/api/categories")
+@RequestMapping("/api/v1/categories")
 public class CategoryController {
-	
+
 	@Autowired
 	private CategoryService categoryService;
-	
+
 	@PostMapping("")
 	public ResponseEntity<CategoryDto> createCategory(@Valid @RequestBody CategoryDto categoryDto){
 		CategoryDto createdCategory = this.categoryService.createCategory(categoryDto);
 		return new ResponseEntity<CategoryDto>(createdCategory, HttpStatus.CREATED);
 	}
-	
+
 	@PutMapping("/{categoryId}")
 	public ResponseEntity<CategoryDto> createCategory(@Valid @RequestBody CategoryDto categoryDto, @PathVariable Integer categoryId){
 		CategoryDto updatedCategory = this.categoryService.updateCategory(categoryDto, categoryId);
 		return new ResponseEntity<CategoryDto>(updatedCategory, HttpStatus.OK);
 	}
-	
+
 	@DeleteMapping("/{categoryId}")
 	public ResponseEntity<ApiResponse> deleteCategory(@PathVariable Integer categoryId){
 		this.categoryService.deleteCategory(categoryId);
 		return new ResponseEntity<ApiResponse>(new ApiResponse("Category deleted successfully", true), HttpStatus.OK);
 	}
-	
+
 	@GetMapping("")
 	public ResponseEntity<List<CategoryDto>> getCategories(){
 		List<CategoryDto> categories = this.categoryService.getCategories();
 		return new ResponseEntity<List<CategoryDto>>(categories, HttpStatus.OK);
 	}
-	
+
 	@GetMapping("/{categoryId}")
 	public ResponseEntity<CategoryDto> getCategory(@PathVariable Integer categoryId){
 		CategoryDto category = this.categoryService.getCategory(categoryId);
