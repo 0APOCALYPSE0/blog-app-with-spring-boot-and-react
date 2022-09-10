@@ -11,3 +11,7 @@ export const getPosts = (page=0, size=5, sortBy='postId', order='asc') => {
 export const getPost = (postId) => {
   return axiosObj.get(`posts/${postId}`).then(response => response.data);
 }
+
+export const createComment = (comment, postId, userId) => {
+  return privateAxiosObj.post(`/post/${postId}/user/${userId}/comments`, { content: comment}).then(response => response.data);
+}

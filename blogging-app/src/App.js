@@ -11,23 +11,26 @@ import Dashboard from './Pages/user-routes/Dashboard';
 import PrivateRoute from './components/PrivateRoute';
 import Profile from './Pages/user-routes/Profile';
 import Post from './Pages/Post';
+import UserProvider from './context/UserProvider';
 
 function App() {
   return (
-    <BrowserRouter>
-      <ToastContainer position='bottom-center' />
-      <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="/signup" element={<Signup />} />
-        <Route path="/login" element={<Login />} />
-        <Route path="/about" element={<About />} />
-        <Route path="/post/:id" element={<Post />} />
-        <Route path="/user" element={<PrivateRoute />} >
-          <Route path="dashboard" element={<Dashboard />} />
-          <Route path="profile" element={<Profile />} />
-        </Route>
-      </Routes>
-    </BrowserRouter>
+    <UserProvider>
+      <BrowserRouter>
+        <ToastContainer position='bottom-center' />
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/signup" element={<Signup />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/about" element={<About />} />
+          <Route path="/post/:id" element={<Post />} />
+          <Route path="/user" element={<PrivateRoute />} >
+            <Route path="dashboard" element={<Dashboard />} />
+            <Route path="profile" element={<Profile />} />
+          </Route>
+        </Routes>
+      </BrowserRouter>
+    </UserProvider>
   );
 }
 
