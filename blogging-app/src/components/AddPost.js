@@ -3,7 +3,7 @@ import { useEffect } from 'react'
 import { Button, Card, CardBody, Container, Form, FormFeedback, Input, Label } from 'reactstrap'
 import { getCategories } from '../services/category-service'
 import JoditEditor from "jodit-react";
-import { createPost } from '../services/post-service';
+import { createPost, uploadPostImage } from '../services/post-service';
 import { getCurrentUser } from '../auth';
 import { toast } from 'react-toastify';
 
@@ -20,6 +20,7 @@ const AddPost = () => {
     errors: {},
     isError: false
   });
+  const [image, setImage] = useState(null);
 
   const handleChange = (e) => {
     let postData =  e.target ? { ...post, [e.target.name]: e.target.value } : { ...post, "content": e }
@@ -67,6 +68,13 @@ const AddPost = () => {
     if(!errorObject.isError){
       post["userId"] = user.id;
       createPost(post).then(data => {
+        uploadPostImage(image, data.postId).then(data => {
+          toast.success("Image uploaded successfully.");
+        })
+        .catch(error => {
+          console.log(error);
+          toast.error("Image upload failed.");
+        });
         toast.success("Post created successfully.");
         reset();
       })
@@ -74,6 +82,14 @@ const AddPost = () => {
         console.log(error)
         toast.error("Post creation failed.");
       })
+    }
+  }
+
+  const handleImageChange = (e) => {
+    if(e.target.files[0].type === 'image/jpeg' || e.target.files[0].type === 'image/png'){
+      setImage(e.target.files[0]);
+    }else{
+      toast.error("Please choose a valid image.");
     }
   }
 
@@ -99,6 +115,10 @@ const AddPost = () => {
                 />
               </div>
               <FormFeedback>{error.errors.content}</FormFeedback>
+            </div>
+            <div className="my-3">
+              <Label for='image'>Post Image</Label>
+              <Input id="image" name="image" type="file" onChange={handleImageChange} accept="image/*" />
             </div>
             <div className='my-3'>
               <Label for="category">Post Category</Label>

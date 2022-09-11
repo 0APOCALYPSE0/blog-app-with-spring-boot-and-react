@@ -15,3 +15,9 @@ export const getPost = (postId) => {
 export const createComment = (comment, postId, userId) => {
   return privateAxiosObj.post(`/post/${postId}/user/${userId}/comments`, { content: comment}).then(response => response.data);
 }
+
+export const uploadPostImage = (image, postId) => {
+  let formData = new FormData();
+  formData.append("image", image);
+  return privateAxiosObj.post(`/image/upload/${postId}`, formData, { headers: { 'Content-Type': 'multipart/form-data' }}).then(response => response.data);
+}
