@@ -33,10 +33,15 @@ const NewsFeed = () => {
     setCurrentPage(currentPage+1);
   }
 
+  const postDeleted = (postId) => {
+    let updatedPosts = posts.content.filter(post => post.postId !== postId);
+    setPosts({ ...posts, content: updatedPosts });
+  }
+
   return (
     <div className='container-fluid'>
       <Row>
-        <Col md={{ size:10, offset: 1 }}>
+        <Col md={{ size:12 }}>
           <InfiniteScroll
           dataLength={posts.content.length}
           next={changePageInfinite}
@@ -49,7 +54,7 @@ const NewsFeed = () => {
           }>
             {
               posts.content.map(post => (
-                <Post post={post} key={post.postId} />
+                <Post post={post} key={post.postId} postDeleted={postDeleted}/>
               ))
             }
           </InfiniteScroll>

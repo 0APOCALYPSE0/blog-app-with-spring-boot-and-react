@@ -24,7 +24,7 @@ import com.blog.services.PostService;
 
 @Service
 public class PostServiceImpl implements PostService {
-	
+
 	@Autowired
 	private PostRepo postRepo;
 	@Autowired
@@ -53,6 +53,8 @@ public class PostServiceImpl implements PostService {
 		post.setTitle(postDto.getTitle());
 		post.setContent(postDto.getContent());
 		post.setImageName(postDto.getImageName());
+		Category category = this.categoryRepo.findById(postDto.getCategory().getCategoryId()).get();
+		post.setCategory(category);
 		Post updatedPost = this.postRepo.save(post);
 		return this.modelMapper.map(updatedPost, PostDto.class);
 	}

@@ -12,6 +12,8 @@ import PrivateRoute from './components/PrivateRoute';
 import Profile from './Pages/user-routes/Profile';
 import Post from './Pages/Post';
 import UserProvider from './context/UserProvider';
+import Categories from './Pages/Categories';
+import UpdatePost from './Pages/UpdatePost';
 
 function App() {
   return (
@@ -24,8 +26,10 @@ function App() {
           <Route path="/login" element={<Login />} />
           <Route path="/about" element={<About />} />
           <Route path="/post/:id" element={<Post />} />
+          <Route path="/categories/:categoryId" element={<Categories />} />
           <Route path="/user" element={<PrivateRoute />} >
             <Route path="dashboard" element={<Dashboard />} />
+            <Route path="update/:postId" element={<UpdatePost />} />
             <Route path="profile" element={<Profile />} />
           </Route>
         </Routes>

@@ -21,3 +21,19 @@ export const uploadPostImage = (image, postId) => {
   formData.append("image", image);
   return privateAxiosObj.post(`/image/upload/${postId}`, formData, { headers: { 'Content-Type': 'multipart/form-data' }}).then(response => response.data);
 }
+
+export const getPostsByCategory = (categoryId) => {
+  return axiosObj.get(`/category/${categoryId}/posts`).then(response => response.data);
+}
+
+export const getPostsByUser = (userId) => {
+  return axiosObj.get(`/user/${userId}/posts`).then(response => response.data);
+}
+
+export const deletePostById = (postId) => {
+  return privateAxiosObj.delete(`/posts/${postId}`).then(response => response.data);
+}
+
+export const updatePost = (post) => {
+  return privateAxiosObj.put(`/posts/${post.postId}`, post).then(response => response.data);
+}

@@ -17,7 +17,6 @@ const Post = () => {
 
   useEffect(() => {
     getPost(id).then(data => {
-      console.log(data);
       setPost(data)
     })
     .catch(error => {
