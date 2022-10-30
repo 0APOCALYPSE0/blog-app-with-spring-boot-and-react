@@ -30,7 +30,7 @@ function App() {
           <Route path="/user" element={<PrivateRoute />} >
             <Route path="dashboard" element={<Dashboard />} />
             <Route path="update/:postId" element={<UpdatePost />} />
-            <Route path="profile" element={<Profile />} />
+            <Route path="profile/:userId" element={<Profile />} />
           </Route>
         </Routes>
       </BrowserRouter>
